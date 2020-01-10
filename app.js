@@ -1,4 +1,4 @@
-const main = async function (user, pass, borse){
+const main = async function (user, pass, borse, price, num){
 
 
 const puppeteer = require('puppeteer')
@@ -20,11 +20,10 @@ const getCaptcha = async () => {
   
 };
 
-(async function (user, pass, borse){
-    console.log(user, pass ,borse)
+(async function (user, pass, borse, price, num){
     try{
         
-        const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+        const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
         const page = await browser.newPage();
         
          page.waitForNavigation();
@@ -37,7 +36,6 @@ const getCaptcha = async () => {
         });
         let text = await getCaptcha();
     
-        console.log('here')
         await page.type('.login-part #username', user);
     
     
@@ -47,7 +45,6 @@ const getCaptcha = async () => {
         await page.evaluate((el)=>{
             document.querySelector('#captcha').value = parseInt(el)
         }, text)
-        console.log(borse)
        await page.click('#submit-btn')
         await page.waitForNavigation()
         
@@ -62,30 +59,23 @@ const getCaptcha = async () => {
         })
         await page.click('.btn-buy')
         await page.waitForSelector('.row > .column > .quantity-part:nth-child(1) > .type > .ng-pristine')
-        await page.type('.row > .column > .quantity-part:nth-child(1) > .type > .ng-pristine', '15500')
+        await page.type('.row > .column > .quantity-part:nth-child(1) > .type > .ng-pristine', price)
         await page.waitForSelector('.row > .column > .quantity-part:nth-child(2) > .type > .ng-pristine')
-        await page.type('.row > .column > .quantity-part:nth-child(2) > .type > .ng-pristine', '500')
-        await page.waitForSelector('.row > .column > .switch-container > .btn-part > .btn:nth-child(3)')
-        await page.click('.row > .column > .switch-container > .btn-part > .btn:nth-child(3)').then(async ()=>{
-             page.waitForSelector('.modal-content > .ready > div > .modalFooter > .btnAccept').then(async()=>{
-                await page.evaluate(()=>{
-                    document.querySelector('.modal-content > .ready > div > .modalFooter > .btnAccept').click()
-                }).then(()=> browser.close())
-
+        await page.type('.row > .column > .quantity-part:nth-child(2) > .type > .ng-pristine', num)
+        await page.waitForSelector('.row > .column > .switch-container > .btn-part > .btn:nth-child(3)').then(async ()=>{
+            await page.evaluate(()=>{
+                document.querySelector('.row > .column > .switch-container > .btn-part > .btn:nth-child(3)').click()
             })
         })
         
-        // await page.waitForSelector('.modal-content > .ready > div > .modalFooter > .btnAccept')
-        // page.click('.modal-content > .ready > div > .modalFooter > .btnAccept')
-
-       console.log('finish')
-     
+            
+       await browser.close()
 
     }catch(e){
 
     console.log(e) 
     }
     
-})(user, pass, borse);
+})(user, pass, borse, price, num);
 }
 module.exports = main

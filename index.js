@@ -19,9 +19,14 @@ app.get('/', (req, res)=>{
     })
 })
 app.post('/',async (req, res)=>{
-    console.log(req.body)
-    await main(req.body.user, req.body.pass, req.body.borse)
-    res.send("check your account one mintue later")
+    if (!req.body.user || !req.body.pass || !req.body.borse || !req.body.price || !req.body.number){
+        res.send('Smoe Information Is not available')
+        
+    }else {
+        await main(req.body.user, req.body.pass, req.body.borse, req.body.price, req.body.number)
+        res.send("check your account one mintue later")
+
+    }
 
  })
 
