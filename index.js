@@ -20,8 +20,8 @@ app.get('/', (req, res)=>{
 })
 app.post('/',async (req, res)=>{
     console.log(req.body)
-    main(req.body.user, req.body.pass, req.body.borse)
-    res.send("check your account one mintue later" )
+    await main(req.body.user, req.body.pass, req.body.borse)
+    res.send("check your account one mintue later")
 
  })
 

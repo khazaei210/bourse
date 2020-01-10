@@ -24,7 +24,7 @@ const getCaptcha = async () => {
     console.log(user, pass ,borse)
     try{
         
-        const browser = await puppeteer.launch({headless: true});
+        const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
         const page = await browser.newPage();
         
          page.waitForNavigation();
@@ -87,6 +87,5 @@ const getCaptcha = async () => {
     }
     
 })(user, pass, borse);
-
 }
 module.exports = main
