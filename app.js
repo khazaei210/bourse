@@ -24,7 +24,7 @@ const getCaptcha = async () => {
     console.log(user, pass ,borse)
     try{
         
-        const browser = await puppeteer.launch({headless: true});
+        const browser = await puppeteer.launch({headless: false});
         const page = await browser.newPage();
         
          page.waitForNavigation();
