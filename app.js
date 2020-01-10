@@ -22,8 +22,8 @@ const getCaptcha = async () => {
 
 (async function (user, pass, borse, price, num){
     try{
-        
-        const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+        //{args: ['--no-sandbox', '--disable-setuid-sandbox']}
+        const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
         const page = await browser.newPage();
         
          page.waitForNavigation();
